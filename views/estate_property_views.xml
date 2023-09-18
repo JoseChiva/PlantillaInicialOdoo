@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="estate_property_action" model="ir.actions.act_window">
+            <field name="name">Properties</field>
+            <field name="res_model">estate.property</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_available_properties': True}</field>
+        </record>
+        <record id="estate_property_view_tree" model="ir.ui.view">
+            <field name="name">estate.property.tree</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <tree string="Estate Property List" decoration-success="state == 'offerr' or state == 'offera'" decoration-bf="state == 'offera'" decoration-muted="state == 'sold'" decoration-danger="state == 'canceled'">
+                    <field name="name" />
+                    <field name="postcode" />
+                    <field name="bedrooms" />
+                    <field name="living_area" />
+                    <field name="expected_price" />
+                    <field name="selling_price" />
+                    <field name="date_availability" optional="hide" />
+                    <field name="state" optional="hide" />
+                </tree>
+            </field>
+        </record>
+        <record id="estate_property_view_form" model="ir.ui.view">
+            <field name="name">estate.property.form</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <form string="Estate Property Form">
+                    <header>
+                        <button name="action_cancel" type="object" string="Cancel"/>
+                        <button name="action_sold" type="object" string="Sold"/>
+                        <field name="state" widget="statusbar" options="{'clickable': '1'}" statusbar_visible="new,offerr,offera,sold,canceled"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name" />
+                            </div>
+                            <h1 class="mb32">
+                                <field name="name" class="mb16" string="" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="tag_ids" widget="many2many_tags"
+                                    options="{'color_field': 'color'}"></field>
+                                <field name="property_type_id" options="{'no_create_edit': True}"></field>
+                                <field name="postcode"></field>
+                                <field name="state" string="Status"></field>
+                                <field name="date_availability" string="Available Form"></field>
+                            </group>
+                            <group>
+                                <field name="expected_price"></field>
+                                <field name="best_price" string="Best Price"></field>
+                                <field name="selling_price"></field>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <group>
+                                    <field name="description" />
+                                    <field name="bedrooms" />
+                                    <field name="living_area" string="Living Area (sqm)" />
+                                    <field name="facades" />
+                                    <field name="garage" />
+                                    <field name="garden" />
+                                    <field name="garden_area" string="Garden Area (sqm)" attrs="{'invisible': [('garden', '=', False)]}"/>
+                                    <field name="garden_orientation" string="Garden Orientation" attrs="{'invisible': [('garden', '=', False)]}"/>
+                                    <field name="total_area" string="Total area (sqm)" />
+                                </group>
+                            </page>
+                            <page string="Offers">
+                                <field name="offer_ids" attrs="{'readonly': [('state', 'in', ('offera','sold','canceled'))]}"/>
+                            </page>
+                            <page string="Other info">
+                                <group>
+                                    <field name="salesperson_id" string="Salesperson" />
+                                    <field name="buyer_id" string="Buyer" />
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="estate_property_view_search" model="ir.ui.view">
+            <field name="name">estate.property.search</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <search string="Tests">
+                    <field name="name" />
+                    <field name="last_seen" />
+                    <field name="living_area" string="Living area >=" filter_domain="[('living_area', '>=', self)]"/>
+                    <separator />
+                    <filter string="Available" name="available_properties"
+                        domain="['|',('state', '=', 'new'),('state', '=', 'offerr')]" />
+                    <group expand="1" string="Group By">
+                        <filter string="Postcode" name="postcode"
+                            context="{'group_by':'postcode', 'residual_visible':True}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>
