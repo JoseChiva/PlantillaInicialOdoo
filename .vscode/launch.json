@@ -1,0 +1,49 @@
+// {
+//     "version": "0.2.0",
+//     "configurations": [
+//         {
+//             "name": "Debug (odoo 16)",
+//             "type": "python",
+//             "request": "launch",
+//             "console": "integratedTerminal",
+//             "cwd": "${workspaceFolder}",
+//             "python": "python",
+//             "program": "C:/Odoo/odoo/odoo-bin",
+//             "args": [
+//                 "--addons-path=C:/Odoo/odoo/addons/,./,C:/Odoo/enterprise/",
+//                 "-d", "MIG_5",
+//                 "-u", "historical_data_transferred,pruebas",
+//                 "-r", "odoo",
+//                 "-w", "odoo",
+//             ],
+//             "preLaunchTask": "",
+//         },
+//     ]
+// }
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceRoot}",
+            "python": "python",
+            "program": "${workspaceRoot}/odoo-bin",
+            "args": [
+                "-d",
+                "MIG_01",
+                "-r",
+                "odoo",
+                "-w",
+                "odoo",
+                "-u",
+                "historical_data_transferred",
+                "--addons-path=addons/,C:/odoo16/Migration_data_xsinfo/P.X2.BCN.TI.032.004",
+                "--dev=all",
+            ],
+            "preLaunchTask": "",
+        }
+    ]
+}
